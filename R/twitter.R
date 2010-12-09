@@ -1,7 +1,6 @@
 #twitter.R
-tweet <- function(text="", hashtags="", commitID="", mention_flag=FALSE){
-	if(mention_flag){ mention = "@cboettig" }else{ mention = "" }
+tweet <- function(comment="", hashtags="", commitID="", mention=" "){
 	# use RegExp to add hashtag # symbol before each hashtag
-	system(paste('hpc-autotweets "', mention, text, hashtags, commitID, '"'))
+	system(paste('hpc-autotweets " @', mention, comment, hashtags, commitID, '"', sep=""))
 }
 
