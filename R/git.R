@@ -1,8 +1,9 @@
 #git.R
 
 ## the commitID 
-gitlog <- function(){
-	log <- system("git log -n 1 origin", intern=TRUE)
+gitlog <- function(remote=FALSE){
+	if(!remote){ log <- system("git log -n 1", intern=TRUE) }
+	else{ log <- system("git log -n 1 origin", intern=TRUE) }
 	commitID <- log[1]
 	author <- log[2]
 	date <- log[3]
