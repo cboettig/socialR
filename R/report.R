@@ -4,10 +4,19 @@
 
 ## Discover tags from project directory
 smart_tags <- function(){
+	tag <- ""
+	# see if home folder is one up
+	check <- system("ls ..", intern=TRUE)	
+	if(pmatch("DESCRITPION", check)){
+	wd <- getwd()
+	wd <- strsplit(wd, "/")[[1]]
+	tag <- wd[length(wd)-1]
+	} else { printf("unable to determine a smart tag") }
+	tag
 }
 
 ## all-in-one reporting, uploads specified files or just tweets the data
-social_report <- function(files=NULL, comment="", mention=" ", tags = "", guess_tags=FALSE){
+social_report <- function(files=NULL, comment="", mention=NULL, tags = "", guess_tags=FALSE){
 	log <- gitlog()
 	if(guess_tags) tags <- c(tags, smart_tags() )
 	flickr(files, tags=tags, description=log$commitID)
@@ -15,7 +24,7 @@ social_report <- function(files=NULL, comment="", mention=" ", tags = "", guess_
 }
 
 ## A function that can be wrapped around a plot command to autoreport it
-social_plot <- function(plotcmd, comment="", mention=" ", tags="", device=c("png"), guess_tags=FALSE, ...){
+social_plot <- function(plotcmd, comment="", mention=NULL, tags="", device=c("png"), guess_tags=FALSE, ...){
 	if(device == "png"){ png("autoplot.png", ...)}
 	else { printf("device type not recognized"); return(0) }
 	plotcmd
