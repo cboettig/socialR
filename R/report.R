@@ -24,10 +24,16 @@ social_report <- function(files=NULL, comment="", mention=NULL, tags = "", guess
 }
 
 ## A function that can be wrapped around a plot command to autoreport it
-social_plot <- function(plotcmd, comment="", mention=NULL, tags="", device=c("png"), guess_tags=FALSE, ...){
-	if(device == "png"){ png("autoplot.png", ...)}
-	else { printf("device type not recognized"); return(0) }
+social_plot <- function(plotcmd, filename=NULL, comment="", mention=NULL, tags="", device=c("png", "jpg"), guess_tags=FALSE, ...){
+	device <- match.arg(device)
+	if(is.null(filename)){ filename <- "autoplot" }
+	if(device == "png"){
+		png(paste(filename, ".png", sep=""), ...)
+	} else if(device == "jpg"){
+		jpeg(paste(filename, ".jpg", sep=""), ...)
+	} else { printf("device type not supported"); return(0) 
+	
 	plotcmd
 	dev.off()
-	social_report(files="autoplot.png", comment=comment, mention=mention, tags=tags, guess_tags=guess_tags)
+	social_report(files=paste(filename, ".*", sep=""), comment=comment, mention=mention, tags=tags, guess_tags=guess_tags)
 }
