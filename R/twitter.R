@@ -6,3 +6,13 @@ tweet <- function(comment="", tags="", commitID="", mention=NULL){
 	else {system(paste("hpc-autotweets \" ", comment, " ", hashtags, commitID, "\"", sep="")) } 
 }
 
+
+## error reporting
+tweet_errors <- function(tags="", commitID="", mention=NULL){
+	myerror <- function() tweet(comment="Error", tags=tags, commitID="", mention=mention)
+	options(error=myerror)
+}
+
+no_tweet_errors <- function(){
+	options(error=NULL)
+}
