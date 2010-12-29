@@ -16,7 +16,8 @@ smart_tags <- function(){
 }
 
 ## all-in-one reporting, uploads specified files or just tweets the data
-social_report <- function(files=NULL, comment="", mention=NULL, tags = "", guess_tags=FALSE){
+social_report <- function(files=NULL, comment="", mention=NULL, tags = "", guess_tags=FALSE, commit=TRUE){
+	if(commit) gitcommit()
 	log <- gitlog()
 	if(guess_tags) tags <- c(tags, smart_tags() )
 	flickr(files, tags=tags, description=log$commitID)
@@ -24,7 +25,7 @@ social_report <- function(files=NULL, comment="", mention=NULL, tags = "", guess
 }
 
 ## A function that can be wrapped around a plot command to autoreport it
-social_plot <- function(plotcmd, file=NULL, comment="", mention=NULL, tags="", device=c("png"), guess_tags=FALSE, ...){
+social_plot <- function(plotcmd, file=NULL, comment="", mention=NULL, tags="", device=c("png"), guess_tags=FALSE, commit=TRUE, ...){
 	if(is.null(file)){
 		if(device == "png"){ 
 			png("autoplot.png", ...)
@@ -38,7 +39,7 @@ social_plot <- function(plotcmd, file=NULL, comment="", mention=NULL, tags="", d
 	}
 	plotcmd
 	dev.off()
-	social_report(files=file, comment=comment, mention=mention, tags=tags, guess_tags=guess_tags)
+	social_report(files=file, comment=comment, mention=mention, tags=tags, guess_tags=guess_tags, commit=TRUE, ...)
 }
 
 
