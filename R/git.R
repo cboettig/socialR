@@ -18,7 +18,7 @@ gitcommit <- function(){
 }
 
 # get the url to the code on github
-github_url <- function(user="cboettig"){
+git_url <- function(user="cboettig"){
 ## get the repository name from the remote directory
 	remote <- system("git remote -v", intern=TRUE)[1]
 	repository <- gsub("[^/]+/([a-zA-Z]+)\\.git.*", "\\1", remote)
