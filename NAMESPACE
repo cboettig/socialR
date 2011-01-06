@@ -1,1 +1,1 @@
-export(smart_tags, social_report, flickr, gitlog, gitcommit, tweet, social_plot, tweet_errors, no_tweet_errors) 
+export(smart_tags, social_report, flickr, git_url, gitlog, gitcommit, tweet, shorturl, social_plot, tweet_errors, no_tweet_errors) 
