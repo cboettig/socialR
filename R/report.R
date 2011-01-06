@@ -24,7 +24,7 @@ social_report <- function(files=NULL, comment="", mention=NULL, tags = "", guess
 	giturl <- git_url(user=gituser) 
 	## Upload to flickr and grab url
 	flickrurl <- flickr(files, tags=tags, description=c(comment, " ", log$commitID, giturl), user=flickruser )
-	tweet(comment=paste(comment, "code:", shorturl(giturl), "fig:", shorturl(flickrurl)), tags=tags, commitID=log$commitID, mention=mention)
+	tweet(comment=paste(comment, "code:", shorturl(giturl), "fig:", shorturl(flickrurl)), tags=tags, mention=mention)
 }
 
 ## A function that can be wrapped around a plot command to autoreport it
