@@ -20,7 +20,7 @@ social_report <- function(files=NULL, comment="", mention=NULL, tags = "", guess
 	if(commit) gitcommit()
 	log <- gitlog()
 	if(guess_tags) tags <- c(tags, smart_tags() )
-	flickr(files, tags=tags, description=log$commitID)
+	flickr(files, tags=tags, description=c(comment, " ", log$commitID) )
 	tweet(comment=comment, tags=tags, commitID=log$commitID, mention=mention)
 }
 
