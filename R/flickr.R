@@ -1,11 +1,13 @@
 #flickr.R
 
-flickr <- function(files, tags="", description="", user="cboettig"){
+flickr <- function(files, tags="", description="", user="cboettig", urls=TRUE){
 # tags -- a space separated character list of all the tags
 	upload_output <- system(paste('flickr_upload --tag="', tags, 
 				 ' " --description="', description, '"', 
 				 files), intern=TRUE)
+	if(urls){
 	url <- flickr_urls(upload_output, user=user)
+	} else { url = "www.flickr.com" }
 	url
 }
 
