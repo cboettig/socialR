@@ -27,7 +27,7 @@ social_report <- function(files=NULL, comment=" ", mention=NULL, tags = "", gues
 		flickrurl <- flickr(files, tags=tags, description=c(comment, " ", log$commitID, giturl), user=flickruser )
 		tweet(comment=paste(comment, "code:", shorturl(giturl), "fig:", shorturl(flickrurl)), tags=tags, mention=mention)
 	} else {
-		flickr(files, tags=tags, description=c(comment, " ", log$commitID), user=flickruser )
+		flickr(files, tags=tags, description=paste(comment, log$commitID), user=flickruser )
 		tweet(comment=comment, tags=tags, mention=mention)
 	}
 }
