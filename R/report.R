@@ -16,7 +16,7 @@ smart_tags <- function(){
 }
 
 ## all-in-one reporting, uploads specified files or just tweets the data
-social_report <- function(files=NULL, comment="", mention=NULL, tags = "", guess_tags=FALSE, commit=TRUE, gituser="cboettig", flickruser="cboettig", urls=FALSE){
+social_report <- function(files=NULL, comment=" ", mention=NULL, tags = "", guess_tags=FALSE, commit=TRUE, gituser="cboettig", flickruser="cboettig", urls=FALSE){
 	if(commit) gitcommit()
 	log <- gitlog()
 	if(guess_tags) tags <- c(tags, smart_tags() )
@@ -28,7 +28,7 @@ social_report <- function(files=NULL, comment="", mention=NULL, tags = "", guess
 		tweet(comment=paste(comment, "code:", shorturl(giturl), "fig:", shorturl(flickrurl)), tags=tags, mention=mention)
 	} else {
 		flickr(files, tags=tags, description=c(comment, " ", log$commitID), user=flickruser )
-		tweet(comment=paste(comment, tags=tags, mention=mention), tags=tags, mention=mention)
+		tweet(comment=comment, tags=tags, mention=mention)
 	}
 }
 
