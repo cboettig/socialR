@@ -29,5 +29,12 @@ git_url <- function(user="cboettig"){
 }
 
 
+# Save file and data
+keep_data <- function(filename){
+	datafile <- paste(filename, ".Rdat", sep="")
+	save(list=ls(), file=datafile)
+	system(paste("git add ", datafile))
+	gitcommit()
+}
 
 
