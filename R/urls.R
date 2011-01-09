@@ -2,7 +2,7 @@
 
 shorturl <- function(url){
 	out <- system(paste("shorturl", url), intern=TRUE)
-	out <- strsplit(out, "\"")[[1]][1]
+#	out <- strsplit(out, "\"")[[1]][1]
 	out
 }
 
