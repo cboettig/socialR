@@ -13,8 +13,8 @@ list(commitID = commitID, author=author, date=date, short_comment=short_comment)
 }
 
 # consider allowing R to check if a commit should be done
-gitcommit <- function(){
-	system("git commit -a -m 'autocommit'", intern=TRUE)
+gitcommit <- function(msg=""){
+	system(paste("git commit -a -m", "'", msg, "autocommit", "'"), intern=TRUE)
 }
 
 # get the url to the code on github

@@ -16,10 +16,11 @@ smart_tags <- function(){
 }
 
 ## all-in-one reporting, uploads specified files or just tweets the data
-social_report <- function(files=NULL, comment=" ", mention=NULL, tags = "", guess_tags=FALSE, commit=TRUE, gituser="cboettig", flickruser="cboettig", urls=FALSE){
+social_report <- function(files=NULL, comment=" ", mention=NULL, tags = "", guess_tags=FALSE, commit=FALSE, gituser="cboettig", flickruser="cboettig", urls=FALSE){
 	if(commit) gitcommit()
 	log <- gitlog()
-	if(guess_tags) tags <- c(tags, smart_tags() )
+	if(guess_tags) tags <- paste(tags, smart_tags() )
+	if(!is.null(files)) tags <- paste(tags, files)
 	if(urls){
 		# grab the git url
 		giturl <- git_url(user=gituser) 
