@@ -2,19 +2,6 @@
 # Gathers run information and synthesizes common calls
 
 
-## Discover tags from project directory
-smart_tags <- function(){
-	tag <- ""
-	# see if home folder is one up
-	check <- system("ls ..", intern=TRUE)	
-	if(pmatch("DESCRITPION", check)){
-	wd <- getwd()
-	wd <- strsplit(wd, "/")[[1]]
-	tag <- wd[length(wd)-1]
-	} else { printf("unable to determine a smart tag") }
-	tag
-}
-
 ## all-in-one reporting, uploads specified files or just tweets the data
 social_report <- function(files=NULL, comment=" ", mention=NULL, tags = "", guess_tags=FALSE, commit=FALSE, gituser="cboettig", flickruser="cboettig", urls=FALSE){
 	if(commit) gitcommit()
