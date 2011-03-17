@@ -1,10 +1,10 @@
 #flickr.R
 
-flickr <- function(files, tags="", description="", user="cboettig", urls=TRUE){
+flickr <- function(files, tags="", description="", user="cboettig", urls=TRUE, public=TRUE){
 	tags <- format_tags(tags)
 # tags -- a space separated character list of all the tags
 	upload_output <- system(paste('flickr_upload --tag="', tags, 
-				 ' " --description="', description, '"', 
+				 ' " --description="', description, '"', ' --public ', as.integer(public), 
 				 files), intern=TRUE)
 	if(urls){
 	url <- flickr_urls(upload_output, user=user)
