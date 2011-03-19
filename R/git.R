@@ -8,6 +8,7 @@ gitlog <- function(remote=FALSE){
 	author <- log[2]
 	date <- log[3]
 	short_comment <- log[5]
+	commitID <- strsplit(commitID, " ")[[1]][2]   # Hashtag without the word "commit" before it
 # Consider the shortened ID
 list(commitID = commitID, author=author, date=date, short_comment=short_comment)
 }
