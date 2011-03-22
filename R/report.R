@@ -33,8 +33,8 @@ social_report <- function(files=NULL, comment=" ", mention=NULL, tags = "", gues
 
 	if(save){
 		save(list=ls(globalenv()), file=paste(flickr_id, ".Rdat", sep=""))
+		print(paste("datafile saved as ", flickr_id, ".Rdat", sep=""))
 	}
-	print(paste("datafile saved as ", flickr_id, ".Rdat", sep=""))
 	flickr_id
 }
 
