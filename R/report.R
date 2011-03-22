@@ -53,7 +53,7 @@ social_plot <- function(plotcmd, file=NULL, comment="", mention=NULL, tags="", d
 	}
 	plotcmd
 	dev.off()
-	social_report(files=file, comment=comment, mention=mention, tags=tags, guess_tags=guess_tags, commit=TRUE, flickruser=flickruser, gituser=gituser, public=public, save=save, ...)
+	social_report(files=file, comment=comment, mention=mention, tags=tags, guess_tags=guess_tags, commit=TRUE, flickruser=flickruser, gituser=gituser, public=public, save=save)
 }
 
 
