@@ -25,7 +25,7 @@ social_report <- function(files=NULL, comment=" ", mention=NULL, tags = "", gues
 	}
 
 	if(save){
-    env <- parent.env(environment)
+    env <- parent.env(environment())
     save(list=ls(env), file=paste(flickr_id, ".Rdat", sep=""))
 		print(paste("datafile saved as ", flickr_id, ".Rdat", sep=""))
 	}
