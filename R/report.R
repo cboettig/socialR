@@ -30,7 +30,7 @@ social_report <- function(files=NULL, comment=" ", mention=NULL, tags = "", gues
     if(global)
       env <- .GlobalEnv
     else 
-      env <- parent(parent.env(environment())) # If this function is being called by social_plot, this is true?
+      env <- parent.env(parent.env(environment())) # If this function is being called by social_plot, this is true?
     save(list=ls(env), file=paste(flickr_id, ".Rdat", sep=""))
 		print(paste("datafile saved as ", flickr_id, ".Rdat", sep=""))
 	}
