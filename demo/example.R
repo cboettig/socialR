@@ -18,7 +18,7 @@ dev.off()
 
 
 # and we have some results to commit...
-upload("test.png", script=script, gitopts=gitopts, tag="test") 
+upload("test.png", script=script, gitopts=gitopts, tags="test", tweet=T) 
 
 
 
