@@ -22,6 +22,6 @@ dev.off()
 # first entry can be a space-delim list of images "image1.png image2.png"
 upload("test.png", script=script, gitopts=gitopts, tags="test", tweet=T) 
 
-# and create and error
+# and create and error that will trigger the the twitter error report
 hist(mydata)
 
