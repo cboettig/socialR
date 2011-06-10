@@ -12,12 +12,13 @@ options(error=tweet_errors(script, gitopts, tags))## tweet on error
 
 
 # code code code .....
+png("test.png")
+  hist(rnorm(100))
+dev.off()
+
 
 # and we have some results to commit...
-upload(
-{
-  hist(rnorm(100))
-}, script=script, gitopts=gitopts, tag="test") 
+upload("test.png", script=script, gitopts=gitopts, tag="test") 
 
 
 
