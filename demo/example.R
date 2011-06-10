@@ -7,8 +7,7 @@ gitopts = list(user = "cboettig", dir = "demo", repo = "socialR")
 
 upload(
 {
-  plot(rnorm(10), rnorm(10))
-  curve(1*x, add=T)
+  hist(rnorm(100))
 }, script="example.R") 
 
 
