@@ -2,20 +2,14 @@
 # Pass a plot expression to social_plot
 require(socialR)
 
-filename <- "example.R"
-dir <- "demo"
-repo <- "socialR"
-user <- "cboettig"
+script <- "example.R"
+gitopts = list(user = "cboettig", dir = "demo", repo = "socialR")
 
-gitaddr <- git_url(filename, user=user, repo=repo, dir=dir)
-#social_plot({
+upload(
+{
+  plot(rnorm(10), rnorm(10))
+  curve(1*x, add=T)
+}, script="example.R") 
 
-png("test.png")
-  hist(rnorm(10), rnorm(10))
-dev.off()
-#})
 
-link <- paste("<a href=\"", gitaddr, "\">code</a>",  sep="") 
-
-flickr("test.png", description=link)
-system("git push")
+on.exit(system("git push"))
