@@ -13,7 +13,7 @@ upload <- function(images, script, comment="", tags="", public=TRUE,
 ## Example:
 
   gitaddr <- do.call(git_url, c(list(scriptname=script), gitopts))
-  source <- paste("<a href=\"", gitaddr, "\">view sourcecode ",
+  source <- paste("<a href=\"", gitaddr, "\">view sourcecode, ",
                   script, "</a>", sep="") 
   flickr_id <- flickr(files=images, description=paste(source, comment),
                       tags=tags, public=public)
