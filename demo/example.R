@@ -16,5 +16,7 @@ png("test.png")
 dev.off()
 #})
 
-flickr("test.png", description=gitaddr)
+link <- paste("<a href=\"", gitaddr, "\">code</a>",  sep="") 
+
+flickr("test.png", description=link)
 system("git push")
