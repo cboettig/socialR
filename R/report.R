@@ -19,7 +19,7 @@ upload <- function(images, script, comment="", tags="", public=TRUE,
                       tags=tags, public=public)
   if(tweet){
     flickraddr <- flickr_url(flickr_id, user=gitopts$user)
-    tweet(paste(script, "done", "view:", shorturl(flickraddr), "source:",
+    tweet(paste(script, "done.", "View:", shorturl(flickraddr), "source:",
           shorturl(gitaddr)), tags=tags)
   }
 
