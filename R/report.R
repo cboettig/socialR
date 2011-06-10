@@ -5,7 +5,7 @@
 # could pass flickr opts with a do.call as well...
 upload <- function(images, script, comment="", tags="", public=TRUE, 
                    gitopts=list(user="cboettig", repo=NULL, dir=NULL),
-                   save=TRUE, tweet=FALSE){
+                   save=TRUE, tweet=TRUE){
 ## Uploads images with links to code, saves data matching image name
 ## Args:
 ##   images: list of .png or .jpg files to upload
@@ -15,7 +15,7 @@ upload <- function(images, script, comment="", tags="", public=TRUE,
   gitaddr <- do.call(git_url, c(list(scriptname=script), gitopts))
   source <- paste("<a href=\"", gitaddr, "\">view sourcecode ",
                   script, "</a>", sep="") 
-  flickr_id <- flickr(images, description=paste(source, comment),
+  flickr_id <- flickr(files=images, description=paste(source, comment),
                       tags=tags, public=public)
   if(tweet){
     flickraddr <- flickr_url(flickr_id, user=gitopts$user)

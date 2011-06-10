@@ -43,8 +43,8 @@ gitcommit <- function(filename="", msg=""){
 git_url <- function(scriptname, user="cboettig", repository=NULL, dir="NULL",
                     raw=FALSE, diff=FALSE){
 
-  if(scriptname="") # if empty scriptname, we must have wanted a commit diff
-    diff=TRUE 
+  if(scriptname=="") # if empty scriptname, we must have wanted a commit diff
+    diff<-TRUE 
   
   if(is.null(repository)) ## guesses is one directory up
     repository <-gsub(".*/(.*)/.*$", "\\1", getwd())
@@ -60,6 +60,13 @@ git_url <- function(scriptname, user="cboettig", repository=NULL, dir="NULL",
     out <- paste(domain, user, repository, "commit", id, sep="/") 
   else 
     out <- paste(domain, user, repository, "blob", id, dir, scriptname, sep="/") 
+}
+
+
+
+git_matches_origin <- function(){
+# check if the current version matches the origin.  
+  FALSE
 }
 
 

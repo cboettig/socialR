@@ -18,9 +18,14 @@ tweet_errors <- function(script, gitopts=list(user="cboettig", repo="NULL",
 # Example:
 #	  options(error=tweet_error(script, gitopts))
   gitaddr <- do.call(git_url, c(list(scriptname=script), gitopts))
-  function(){
+  if(interactive()) # don't tweet from interactive sessions
+    error_fn <- function() recover()
+  else 
+    error_fn <- function(){
        tweet(paste(script, "ERROR", "source:",
           shorturl(gitaddr)), tags=tags, mention=gitopts$user)
-  }
+    }
+  options(error=error_fn)
 }
+
 

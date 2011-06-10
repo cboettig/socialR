@@ -11,7 +11,7 @@ flickr <- function(files, tags="", description="", public=TRUE){
 	flickr_id
 }
 
-flickr_url <- function(flick_id, user="cboettig")
+flickr_url <- function(flickr_id, user="cboettig")
 {
 	url <- paste("http://www.flickr.com/photos/", user, "/",  flickr_id, sep="")
 }
