@@ -40,11 +40,12 @@ gitcommit <- function(filename="", msg=""){
 
 # get the url to the code on github.  Code still needs to be pushed before link will work!
 # note that default guesses may fail, specify all options!
-git_url <- function(filename, user="cboettig", repository=NULL, dir="NULL",
+git_url <- function(scriptname, user="cboettig", repository=NULL, dir="NULL",
                     raw=FALSE, diff=FALSE){
 
-  gitcommit(filename) 
-
+  if(scriptname="") # if empty scriptname, we must have wanted a commit diff
+    diff=TRUE 
+  
   if(is.null(repository)) ## guesses is one directory up
     repository <-gsub(".*/(.*)/.*$", "\\1", getwd())
   if(is.null(dir)) ## guess the current directory
@@ -54,11 +55,11 @@ git_url <- function(filename, user="cboettig", repository=NULL, dir="NULL",
   domain <- "https://github.com"
 
   if(raw)
-    out <- paste("https://raw.github.com", user, repository, id, dir, filename, sep="/") 
+    out <- paste("https://raw.github.com", user, repository, id, dir, scriptname, sep="/") 
   else if(diff)
     out <- paste(domain, user, repository, "commit", id, sep="/") 
   else 
-    out <- paste(domain, user, repository, "blob", id, dir, filename, sep="/") 
+    out <- paste(domain, user, repository, "blob", id, dir, scriptname, sep="/") 
 }
 
 
