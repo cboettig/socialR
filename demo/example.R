@@ -11,8 +11,7 @@ gitaddr <- git_url(filename, user=user, repo=repo, dir=dir)
 #social_plot({
 
 png("test.png")
-  plot(rnorm(10), rnorm(10))
-  curve(1*x, add=T)
+  hist(rnorm(10), rnorm(10))
 dev.off()
 #})
 
