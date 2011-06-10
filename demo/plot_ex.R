@@ -2,9 +2,16 @@
 # Pass a plot expression to social_plot
 require(socialR)
 
-social_plot({
-  plot(rnorm(10), rnorm(10))
-  curve(1*x, add=T)
-})
+filename <- "plot_ex.R"
+dir <- "demo"
+repo <- "socialR"
+user <- "cboettig"
+
+
+tweet(git_url(filename, user=user, repo=repo, dir=dir))
+#social_plot({
+#  plot(rnorm(10), rnorm(10))
+#  curve(1*x, add=T)
+#})
 
 
