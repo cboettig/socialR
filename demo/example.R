@@ -17,4 +17,4 @@ dev.off()
 #})
 
 flickr("test.png", description=gitaddr)
-syste("git push")
+system("git push")
