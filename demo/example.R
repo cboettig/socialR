@@ -7,7 +7,8 @@ gitcommit(script)     # Must commmit at start!
 gitopts = list(user = "cboettig", dir = "demo", repo = "socialR") #almost requisite, if not me running in /demo
 on.exit(system("git push")) #  Need for git links.  May prompt for pw, so wait till end.  
 tags <- "test"  ## optional. Nice but establish a few standard ones only
-options(error=tweet_errors(script, gitopts, tags))## tweet on error
+
+tweet_errors(script, gitopts, tags)  ## tweet on error
 
 
 
