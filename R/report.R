@@ -19,8 +19,7 @@ upload <- function(images, script, comment="", tags="", public=TRUE,
                       tags=tags, public=public)
   if(tweet){
     cpu <- paste("machine_", get_cpu_name(), sep="") #From which machine
-    a <- proc.time()
-    runtime <- formattime(a$user.self+a$user.child+a$sys.self+a$sys.child)
+    runtime <- gettime()
     flickraddr <- flickr_url(flickr_id, user=gitopts$user)
     tweet(paste(script, "done.", "View:", shorturl(flickraddr), "source:",
           shorturl(gitaddr),"runtime: ", runtime, " ", names(runtime)), 
