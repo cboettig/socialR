@@ -2,13 +2,13 @@
 tweet <- function(comment="", tags="", mention=NULL){
   tags <- format_tags(tags)
 	hashtags <- gsub("(\\b\\w.)", "\\#\\1", tags, perl=TRUE)
-	if(!is.null(mention)){ 
-    system(paste("hpc-autotweets \" @", mention, " ", comment, " ", hashtags,
-                 "\"", sep="")) 
-    }
-	else {
-    system(paste("hpc-autotweets \" ", comment, " ", hashtags, " ", 
-                 "\"", sep="")) } 
+	if(!is.null(mention)){
+    msg <- paste("@", mention, " ", comment, " ", hashtags, sep="")
+  } else {
+    msg <- paste(comment, " ", hashtags, sep="")
+  }
+  msg <- gsub("^(.{140}).*", "\\1", msg)  ## TRUNCATE to 140
+   system(paste("hpc-autotweets \" ", msg, "\"", sep="")) 
 }
 
 
