@@ -13,7 +13,7 @@ tweet <- function(comment="", tags="", mention=NULL){
 
 
 tweet_errors <- function(script, gitopts=list(user="cboettig", repo="NULL",
-                         dir="NULL"), tags="", mention=""){
+                         dir="NULL"), tags="", mention=NULL){
 # error reporting through twitter
 # Example:
 #	  options(error=tweet_error(script, gitopts))
