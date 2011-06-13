@@ -15,8 +15,6 @@ tweet <- function(comment="", tags="", mention=NULL){
 tweet_errors <- function(script, gitopts=list(user="cboettig", repo="NULL",
                          dir="NULL"), tags="", mention=NULL){
 # error reporting through twitter
-# Example:
-#	  options(error=tweet_error(script, gitopts))
   gitaddr <- do.call(git_url, c(list(scriptname=script), gitopts))
   cpu <- get_cpu_name()
   runtime <- gettime()
@@ -54,6 +52,21 @@ formattime <- function(runtime){
       names(runtime) <- "days"
   }
   runtime
+}
+
+tweet_done <- function(script, gitopts=list(user="cboettig", repo="NULL",
+                         dir="NULL"), tags="", mention=NULL){
+  gitaddr <- do.call(git_url, c(list(scriptname=script), gitopts))
+  cpu <- get_cpu_name()
+  runtime <- gettime()
+  
+  if(interactive()) # don't tweet from interactive sessions
+    recover()
+  else 
+     tweet(paste(script, "DONE on ", cpu, ", source:",shorturl(gitaddr),
+           "runtime: ", runtime, " ", names(runtime)),
+           tags=c(paste(tags, " machine_", cpu, sep="")),
+           mention=mention)
 }
 
 
