@@ -36,22 +36,26 @@ tweet_errors <- function(script, gitopts=list(user="cboettig", repo="NULL",
 
 gettime <- function(){
    a <- proc.time()
-  runtime <- a[1]+a[2]+a[4]+a[5]
-  runtime <- formattime(runtime) 
+  runtime <- a[3] #a[1]+a[2]+a[4]+a[5]
+  formattime(runtime) 
 }
 
 formattime <- function(runtime){
   if(runtime < 60){
+    runtime <- round(runtime, 3)
     names(runtime) <- "seconds"
   } else if(runtime/60 < 60){
     runtime <- runtime/60
+    runtime <- round(runtime, 3)
     names(runtime) <- "minutes"
   } else if(runtime/60/60 < 24){
     runtime <- runtime/60/60
+    runtime <- round(runtime, 3)
     names(runtime) <- "hours"
   }  else if(runtime/60/60 > 24){
-      runtime <- runtime/60/60/24
-      names(runtime) <- "days"
+     runtime <- runtime/60/60/24
+     runtime <- round(runtime, 3)
+     names(runtime) <- "days"
   }
   runtime
 }

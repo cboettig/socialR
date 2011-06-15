@@ -4,24 +4,24 @@
 
 # could pass flickr opts with a do.call as well...
 upload <- function(images, script, comment="", tags="", public=TRUE, 
-                   gitopts=list(user="cboettig", repo=NULL, dir=NULL),
-                   save=TRUE, tweet=TRUE){
+                   flickr_user = "cboettig", save=TRUE, tweet=TRUE,
+                   gitaddr){ 
+                  
 ## Uploads images with links to code, saves data matching image name
 ## Args:
 ##   images: list of .png or .jpg files to upload
 ##   script: name of the current script
 ## Example:
 
-  gitaddr <- do.call(git_url, c(list(scriptname=script), gitopts))
   source <- paste("<a href=\"", gitaddr, "\">view sourcecode, ",
                   script, "</a>", sep="") 
   flickr_id <- flickr(files=images, description=paste(source, comment),
                       tags=tags, public=public)
   if(tweet){
-    cpu <- paste("machine_", get_cpu_name(), sep="") #From which machine
+    cpu <- get_cpu_name() #From which machine
     runtime <- gettime()
-    flickraddr <- flickr_url(flickr_id, user=gitopts$user)
-    tweet(paste(script, "done.", "View:", shorturl(flickraddr), "source:",
+    flickraddr <- flickr_url(flickr_id, user=flickr_user)
+    tweet(paste(script, "From", cpu, ". View:", shorturl(flickraddr), "source:",
           shorturl(gitaddr),"runtime: ", runtime, " ", names(runtime)), 
           tags=c(tags, cpu))
   }

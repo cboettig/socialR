@@ -26,21 +26,34 @@ list(commitID = commitID, author=author, date=date, short_comment=short_comment)
 }
 
 # consider allowing R to check if a commit should be done
-gitcommit <- function(filename="", msg=""){
-  if(filename==""){
+gitcommit <- function(script="", gitopts=NULL, msg=""){
+## really should specify gitopts, but if not, we'll try and guess
+  if(is.null(gitopts))
+    gitopts <- guess_gitopts() 
+  if(script==""){
   	system(paste("git commit -a -m", "'", msg, "autocommit", "'"), intern=TRUE)
   } else {
-  	system(paste("git add", filename), intern=TRUE)
-  	system(paste("git commit -m", "'", filename, msg, "autocommit", "'"), intern=TRUE)
+  	system(paste("git add", script), intern=TRUE)
+  	system(paste("git commit -m", "'", script, 
+           msg, "autocommit", "'"), intern=TRUE)
   }
+# return the gitaddr 
+  gitaddr <- do.call(git_url, c(list(scriptname=script), gitopts))
+  gitaddr
 }
 
-
-
+### 
+guess_gitopts <- function(user="cboettig", repository=NULL, dir=NULL){
+  if(is.null(repository)) ## guesses is one directory up
+    repository <-gsub(".*/(.*)/.*$", "\\1", getwd())
+  if(is.null(dir)) ## guess the current directory
+    dir <-gsub(".*/(.*)$", "\\1", getwd())
+  list(user="cboettig", repository=repository, dir=dir)
+}
 
 # get the url to the code on github.  Code still needs to be pushed before link will work!
 # note that default guesses may fail, specify all options!
-git_url <- function(scriptname, user="cboettig", repository=NULL, dir="NULL",
+git_url <- function(scriptname, user="cboettig", repository=NULL, dir=NULL,
                     raw=FALSE, diff=FALSE){
 
   if(scriptname=="") # if empty scriptname, we must have wanted a commit diff
