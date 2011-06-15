@@ -1,11 +1,10 @@
 #####  socialR header info ##### 
 require(socialR)
 script <- "example.R" # Must specify the script name! 
-gitcommit(script)     # Must commmit at start!
+gitopts = list(user = "cboettig", dir = "demo", repo = "socialR") 
+gitaddr <- gitcommit(script, gitopts)     # Must commmit at start and store id.
 
 ##### Optional but a good idea ##### 
-#almost requisite, if not me running "repo"/"dir"
-gitopts = list(user = "cboettig", dir = "demo", repo = "socialR") 
 on.exit(system("git push")) #  For git links.  May prompt for pw,
 tags <- "test"  ## multiple possible: space, delim, multiple items, etc.  
 tweet_errors(script, gitopts, tags)  ## tweet on error
@@ -20,7 +19,8 @@ dev.off()
 
 # and here's the call to upload, link, save data, and tweet. 
 # first entry can be a space-delim list of images "image1.png image2.png"
-upload("test.png", script=script, gitopts=gitopts, tags="test", tweet=T) 
+upload("test.png", script=script, gitaddr=gitaddr,
+       tags="test", flickr_user="cboettig") 
 
 # and create and error that will trigger the the twitter error report
 hist(mydata)
