@@ -25,8 +25,9 @@ tweet_errors <- function(script, gitopts=list(user="cboettig", repo="NULL",
     error_fn <- function(){
        tweet(paste(script, "ERROR on ", cpu, ", source:",shorturl(gitaddr),
              "runtime: ", runtime, " ", names(runtime)),
-             tags=c(paste(tags, " machine_", cpu, sep="")),
-             mention=mention)
+             tags=tags, mention=mention)
+       tweet(geterrmessage())
+       q("no", status=1, runLast=FALSE)
     }
   options(error=error_fn)
 }
@@ -34,25 +35,25 @@ tweet_errors <- function(script, gitopts=list(user="cboettig", repo="NULL",
 
 gettime <- function(){
    a <- proc.time()
-  runtime <- a[3] #a[1]+a[2]+a[4]+a[5]
+  runtime <- a[3]+a[1]+a[2]+a[4]+a[5]
   formattime(runtime) 
 }
 
-formattime <- function(runtime){
+formattime <- function(runtime, decimals=1){
   if(runtime < 60){
-    runtime <- round(runtime, 3)
+    runtime <- round(runtime, decimals)
     names(runtime) <- "seconds"
   } else if(runtime/60 < 60){
     runtime <- runtime/60
-    runtime <- round(runtime, 3)
+    runtime <- round(runtime, decimals)
     names(runtime) <- "minutes"
   } else if(runtime/60/60 < 24){
     runtime <- runtime/60/60
-    runtime <- round(runtime, 3)
+    runtime <- round(runtime, decimals)
     names(runtime) <- "hours"
   }  else if(runtime/60/60 > 24){
      runtime <- runtime/60/60/24
-     runtime <- round(runtime, 3)
+     runtime <- round(runtime, decimals)
      names(runtime) <- "days"
   }
   runtime
