@@ -1,11 +1,10 @@
 #####  socialR header info ##### 
 require(socialR)
 script <- "example.R" # Must specify the script name! 
-gitopts = list(user = "cboettig", dir = "demo", repo = "socialR") 
+gitopts <- list(user = "cboettig", dir = "demo", repo = "socialR") 
 gitaddr <- gitcommit(script, gitopts)     # Must commmit at start and store id.
 
 ##### Optional but a good idea ##### 
-on.exit(system("git push")) #  For git links.  May prompt for pw,
 tags <- "test"  ## multiple possible: space, delim, multiple items, etc.  
 tweet_errors(script, gitopts, tags)  ## tweet on error
 
