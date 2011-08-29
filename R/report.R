@@ -5,7 +5,7 @@
 # could pass flickr opts with a do.call as well...
 upload <- function(images, script, comment="", tags="", public=TRUE, 
                    flickr_user = "cboettig", save=TRUE, tweet=TRUE,
-                   gitaddr){ 
+                   gitaddr=gitcommit()){ 
                   
 ## Uploads images with links to code, saves data matching image name
 ## Args:
@@ -32,6 +32,17 @@ upload <- function(images, script, comment="", tags="", public=TRUE,
 		print(paste("datafile saved as ", flickr_id, ".Rdat", sep=""))
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
