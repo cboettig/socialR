@@ -21,8 +21,9 @@ gitlog <- function(){
 	date <- log[3]
 	short_comment <- log[5]
 	commitID <- strsplit(commitID, " ")[[1]][2]   # Hashtag without the word "commit" before it
+  shortID <- gsub("(.{7}).+", "\\1", commitID)
 # Consider the shortened ID
-list(commitID = commitID, author=author, date=date, short_comment=short_comment)
+list(commitID = commitID, author=author, date=date, short_comment=short_comment, shortID=shortID)
 }
 
 # consider allowing R to check if a commit should be done
