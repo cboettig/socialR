@@ -13,6 +13,8 @@ upload <- function(images, script="", comment="", tags="", public=TRUE,
 ##   script: name of the current script, just used as link text
 ## Example:
 
+  if(script=="") # if not given, use the text "link" for the link
+    script <- "link"
   source <- paste("<a href=\"", gitaddr, "\">view sourcecode, ",
                   script, "</a>", sep="") 
   flickr_id <- flickr(files=images, description=paste(source, comment),
