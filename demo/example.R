@@ -21,6 +21,12 @@ dev.off()
 upload("test.png", script=script, gitaddr=gitaddr,
        tags="test", flickr_user="cboettig") 
 
+# lazy upload, will still guess the essentials
+upload("test.png", script=script) 
+
+# minimal upload, will only link to the commit version
+upload("test.png") 
+
 # and create and error that will trigger the the twitter error report
 hist(mydata)
 
