@@ -3,14 +3,14 @@
 
 
 # could pass flickr opts with a do.call as well...
-upload <- function(images, script, comment="", tags="", public=TRUE, 
+upload <- function(images, script="", comment="", tags="", public=TRUE, 
                    flickr_user = "cboettig", save=TRUE, tweet=TRUE,
-                   gitaddr=gitcommit()){ 
+                   gitaddr=gitcommit(script)){ 
                   
 ## Uploads images with links to code, saves data matching image name
 ## Args:
 ##   images: list of .png or .jpg files to upload
-##   script: name of the current script
+##   script: name of the current script, just used as link text
 ## Example:
 
   source <- paste("<a href=\"", gitaddr, "\">view sourcecode, ",
