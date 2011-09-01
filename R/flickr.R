@@ -8,7 +8,7 @@ flickr <- function(files, tags="", description="", public=TRUE){
          as.integer(public), 
 				 files), intern=TRUE)
 	flickr_id <- gsub("([^0-9]*)", "", upload_output[3])
-  flickr_id <- gsub(".+(.{10}\\.Rdat)", "\\1", flickr_id)# last 10 digits only
+  flickr_id <- gsub(".*(.{10}\\.Rdat)", "\\1", flickr_id)# last 10 digits only
   flickr_id
 }
 
