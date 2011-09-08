@@ -24,7 +24,7 @@ for(i in 1:length(carl[[1]])){
 
 pal2 <- brewer.pal(8,"Dark2")
 
-png("wordcloud.png", width=1280,height=800)
+png("wordcloud.png", width=1280,height=1280)
 wordcloud(carl.d$word,carl.d$freq, scale=c(8,.2),min.freq=1,
 max.words=Inf, random.order=FALSE, rot.per=.15, colors=pal2)
 dev.off()
