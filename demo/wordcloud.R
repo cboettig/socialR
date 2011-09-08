@@ -24,8 +24,9 @@ for(i in 1:length(carl[[1]])){
 
 pal2 <- brewer.pal(8,"Dark2")
 
-png("wordcloud.png", width=2560,height=2560)
-wordcloud(carl.d$word,carl.d$freq, scale=c(8,.2),min.freq=1,
+png("wordcloud.png", width=800,height=800) 
+#larger canvas doesn't increase plot size
+wordcloud(carl.d$word,carl.d$freq, scale=c(8,.4),min.freq=1,
 max.words=Inf, random.order=FALSE, rot.per=.15, colors=pal2)
 dev.off()
 
