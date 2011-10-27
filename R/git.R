@@ -35,8 +35,8 @@ gitcommit <- function(script="", gitopts=NULL, msg=""){
   	system(paste("git commit -a -m", "'", msg, "autocommit", "'"), intern=TRUE)
   } else {
   	system(paste("git add", script), intern=TRUE)
-  	system(paste("git commit -m", "'", script, 
-           msg, "autocommit", "'"), intern=TRUE)
+  	system(paste("git commit -a -m", "'", 
+                 msg, "autocommit", "'"), intern=TRUE)
   }
 # return the gitaddr 
   gitaddr <- do.call(git_url, c(list(scriptname=script), gitopts))
