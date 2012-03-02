@@ -1,11 +1,22 @@
 Package: socialR
 Type: Package
-Title: Social functions for R 
+Title: Social functions for R
 Version: 0.0-1
 Date: 2010-12-07
 Author: Carl Boettiger <cboettig@gmail.com>
 Maintainer: Carl Boettiger <cboettig@gmail.com>
-Description: Enable error reporting and results in R through social networking services.  Uses primarily external calls at the moment.  
-Depends: R(>= 2.6.1) 
-SystemRequirements: flickr_upload, git, hpc-autotweets 
+Description: Enable error reporting and results in R through social networking
+    services.  Uses primarily external calls at the moment.
+Depends:
+    R(>= 2.6.1)
+SystemRequirements: flickr_upload, git, hpc-autotweets
 License: GPL (>= 2)
+Collate:
+    'custom_knit.R'
+    'flickr.R'
+    'git.R'
+    'report.R'
+    'tags.R'
+    'twitter.R'
+    'urls.R'
+    'depricated_knit.R'
