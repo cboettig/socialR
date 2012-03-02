@@ -1,7 +1,10 @@
 
 #' Define the wordpress uploader method.  
 #' @param x the image to be uploaded 
-#' @details Make sure url and user/password are defined in options for this to work.  
+#' @details Make sure url and user/password are defined in options for 
+#' this to work, i.e: 
+#' options(WordPressLogin = c(userid = "password"), 
+#'   WordPressURL = "http://www.yourdomain.com/xmlrpc.php")
 #' @import RWordPress
 #' @seealso uploadFile
 #' @export
@@ -14,16 +17,18 @@
 }
 
 
-
 #' Define the flickr uploader method using Rflickr
 #' @param x the name of the image file to upload
 #' @param id_only return the flickr id code? if false returns the static url
-#' @param additional arguments to \link{flickr.upload}
-#' @details you'll need to define your secure details in options.  
+#' @param ... additional arguments to flickr.upload (public, description, tags)
+#' @details you'll need to define your secure details in options. 
+#' Obtain an api_key and secret key for your account by registering
+#' with the flickr API. Then use Rflickr to establish an authentication token
+#' for this application.  Enter each of these using "options()"
 #' @import Rflickr
 #' @seealso flickr.upload 
 #' @export
-.flickr.url = function(x, id_only = FALSE, ...) {
+.flickr.url = function(x, id_only = FALSE, ...){
   require(Rflickr)
   file = paste(x, collapse = '.')
   if (opts_knit$get('upload')) {
@@ -34,14 +39,22 @@
                         api_key=api_key, image=file, ...)
     sizes_url <- flickr.photos.getSizes(secret=secret, auth_token=auth,
                                         api_key=api_key, photo_id=id)
-    sizes_url[[5]][[4]]
+    if(id_only) 
+      out <- id
+    else 
+      out <- sizes_url[[5]][[4]]
+    out
   } else file
 }
 
 
 
 #' define a wrapper to make a generic url image method html compatible
-#' shouldn't be necessary once knitr is supporting custom urls
+#' @param custom_url a function that uploads an image and returns a url
+#' @param ... additional options for that function
+#' @return a knitr hook for html 
+#' @details shouldn't be necessary once knitr is supporting custom urls
+#' @export
 .hook_plot_html_wrapper <- function(custom_url, ...){
   function(x, options) {
     a = options$fig.align
@@ -54,7 +67,11 @@
   }
 }
 #' define a wrapper to make a generic url image method markdown compatible
-#' shouldn't be necessary once knitr is supporting custom urls
+#' @param custom_url a function that uploads an image and returns a url
+#' @param ... additional options for that function
+#' @return a knitr hook for markdown format 
+#' @details shouldn't be necessary once knitr is supporting custom urls
+#' @export
 .hook_plot_md_wrapper <- function(custom_url){
   function(x, options) {
     base = opts_knit$get('base.url')
@@ -63,6 +80,62 @@
   }
 }
 
+#' Create a hook that inserts my wordpress shortcode
+.hook_plot_flickr_shortcode = function(x, options) {
+    sprintf('[flickr]%s[/flickr]', .flickr.url(x, id_only=TRUE))
+}
+
+
+#' A function to set the wordpress rendering environment with code syntax highlighting
+#' @param upload should images be uploaded 
+#' @param image_service which image method should be used?  See details
+#' @returns creates a wordpress rendering environment
+#' @details wordpress
+#' @import knitr
+#' @export
+render_wordpress <- function(upload=TRUE, image_service = c("wordpress", "imgur", "flickr")){
+  render_gfm() 
+  options(width=30)
+  opts_knit$set(upload = upload)
+  output = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
+  warning = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
+  message = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
+  inline = function(x, options) paste("<pre>", x, "</pre>", sep = "")
+  error = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
+  source = function(x, options) paste("[code lang='r']\n", x, "[/code]\n", sep = "")
+
+  image_service <- match.arg(image_service)
+
+  if(image_service == "flickr")
+    hook_plot = .hook_plot_flickr_sortcode
+  else if(image_service == "imgur")
+    hood_plot = hook_plot_html
+  else if(image_service == "wordpress")
+    hook_plot = .hook_plot_html_wrapper(.wordpress.url)
+  ## And here we go
+  knit_hooks$set(output=output, warning=warning, message=message, 
+                 inline=inline, error=error, source=source, plot = hook_plot) 
+}
+
+
+#' A function that reads posts a file to wordpress
+#' @param file the wordpress blog post
+#' @param title the title for the post
+#' @param publish should I post as a draft or publish immediately?
+#' @return creates a wordpress post
+#' @import RWordPress
+#' @export
+#' @details Requires wordpress options be already configured, e.g. 
+#' options(WordPressLogin = c(userid = "password"), 
+#'   WordPressURL = "http://www.yourdomain.com/xmlrpc.php")
+post_wordpress <- function(file, title = format(Sys.time(), "%A"), publish = FALSE){
+  require(RWordPress)
+  text = paste(readLines(file), collapse = '\n')
+  newPost(list(description = text, title = title), publish = publish)
+}
+
+
+########## DEPRICATED METHODS ############# 
 
 
 ### Old perl-based uploader #####
@@ -81,38 +154,8 @@
   gsub(".*ids=(\\d+)", "\\1", out[3])
 }
 ## Create a hook that inserts my wordpress shortcode
-.hook_plot_flickr_shortcode = function(x, options) {
+.hook_plot_flickr_shortcode_perl = function(x, options) {
     sprintf('[flickr]%s[/flickr]', .flickr.id(x))
 }
 
 
-
-
-
-render_wordpress <- function(upload=TRUE, flickr=FALSE){
-  render_gfm() 
-  options(width=30)
-  opts_knit$set(upload = upload)
-  output = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
-  warning = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
-  message = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
-  inline = function(x, options) paste("<pre>", x, "</pre>", sep = "")
-  error = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
-  source = function(x, options) paste("[code lang='r']\n", x, "[/code]\n", sep = "")
-
-  if(flickr)
-    hook_plot = .hook_plot_flickr_sortcode
-  else
-    hook_plot = .hook_plot_html_wrapper(.wordpress.url)
-  ## And here we go
-  knit_hooks$set(output=output, warning=warning, message=message, 
-                 inline=inline, error=error, source=source, plot = hook_plot) 
-}
-
-
-
-.post_wordpress <- function(title = format(Sys.time(), "%A"), publish = FALSE){
-  require(RWordPress)
-  text = paste(readLines('wordpress.md'), collapse = '\n')
-  newPost(list(description = text, title = title), publish = publish)
-}
