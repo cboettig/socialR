@@ -1,4 +1,3 @@
-
 #' Define the wordpress uploader method.  
 #' @param x the image to be uploaded 
 #' @details Make sure url and user/password are defined in options for 
@@ -11,10 +10,7 @@
 #' @export
 wordpress.url = function(x) {
   require(RWordPress)
-  file = paste(x, collapse = '.')
-  if (opts_knit$get('upload')) {
-    uploadFile(file)$url
-  } else file
+  uploadFile(file)$url
 }
 
 
@@ -33,29 +29,16 @@ wordpress.url = function(x) {
 #' @export
 flickr.url = function(x, id_only = FALSE, ...){
   require(Rflickr)
-  file = paste(x, collapse = '.')
-  if (opts_knit$get('upload')) {
-    auth=getOption("flickr_tok") 
-    api_key=getOption("flickr_api_key") 
-    secret=getOption("flickr_secret")
-    id <- flickr.upload(secret=secret, auth_token=auth,
-                        api_key=api_key, image=file, ...)
-    sizes_url <- flickr.photos.getSizes(secret=secret, auth_token=auth,
-                                        api_key=api_key, photo_id=id)
-    if(id_only) 
-      out <- id
-    else 
-      out <- sizes_url[[5]][[4]]
-    out
-  } else file
+  auth=getOption("flickr_tok") 
+  api_key=getOption("flickr_api_key") 
+  secret=getOption("flickr_secret")
+  id <- flickr.upload(secret=secret, auth_token=auth,
+                      api_key=api_key, image=file, ...)
+  sizes_url <- flickr.photos.getSizes(secret=secret, auth_token=auth,
+                                      api_key=api_key, photo_id=id)
+  orig_size_url <- sizes_url[[5]][[4]]
+  orig_size_url
 }
-
-
-#' Create a hook that inserts my wordpress shortcode
-hook_plot_flickr_shortcode = function(x, options) {
-    sprintf('[flickr]%s[/flickr]', flickr.url(x, id_only=TRUE))
-}
-
 
 #' A function to set the wordpress rendering environment with code syntax highlighting
 #' @param upload should images be uploaded 
@@ -77,9 +60,9 @@ render_wordpress <- function(upload=TRUE, image_service = c("wordpress", "imgur"
 
   image_service <- match.arg(image_service)
   if(image_service == "flickr")
-   opts_knit$get("flickr.url")
+    opts_knit$set(upload.fun = flickr.url)
   else if(image_service == "wordpress")
-   opts_knit$get("wordpress.url")
+    opts_knit$set(upload.fun = wordpress.url)
     
   ## And here we go
   knit_hooks$set(output=output, warning=warning, message=message, 
