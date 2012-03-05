@@ -8,7 +8,7 @@
 #' @seealso uploadFile
 #' @return the url, if uploaded.  otherwise, just the name of the file
 #' @export
-wordpress.url = function(x) {
+wordpress.url = function(file) {
   require(RWordPress)
   uploadFile(file)$url
 }
@@ -16,10 +16,8 @@ wordpress.url = function(x) {
 
 #' Define the flickr uploader method using Rflickr
 #' @param x the name of the image file to upload
-#' @param id_only return the flickr id code? if false returns the static url
 #' @param ... additional arguments to flickr.upload (public, description, tags)
-#' @return the url, if uploaded.  otherwise, just the name of the file. 
-#'  Optionally will return just the flickr id if id_only is TRUE
+#' @return the url, if uploaded. 
 #' @details you'll need to define your secure details in options. 
 #' Obtain an api_key and secret key for your account by registering
 #' with the flickr API. Then use Rflickr to establish an authentication token
@@ -27,13 +25,14 @@ wordpress.url = function(x) {
 #' @import Rflickr
 #' @seealso flickr.upload 
 #' @export
-flickr.url = function(x, id_only = FALSE, ...){
+flickr.url = function(file){
   require(Rflickr)
   auth=getOption("flickr_tok") 
   api_key=getOption("flickr_api_key") 
   secret=getOption("flickr_secret")
-  id <- flickr.upload(secret=secret, auth_token=auth,
-                      api_key=api_key, image=file, ...)
+  id <- do.call(flickr.upload, 
+    c(secret = secret, auth_token = auth, api_key = api_key,
+      image = file, as.list(getOption("flickrOptions"))))
   sizes_url <- flickr.photos.getSizes(secret=secret, auth_token=auth,
                                       api_key=api_key, photo_id=id)
   orig_size_url <- sizes_url[[5]][[4]]
