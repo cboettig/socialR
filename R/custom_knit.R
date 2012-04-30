@@ -8,7 +8,7 @@
 #' @seealso uploadFile
 #' @return the url, if uploaded.  otherwise, just the name of the file
 #' @export
-wordpress.url = function(x) {
+wordpress.url = function(file) {
   require(RWordPress)
   uploadFile(file)$url
 }
@@ -16,10 +16,8 @@ wordpress.url = function(x) {
 
 #' Define the flickr uploader method using Rflickr
 #' @param x the name of the image file to upload
-#' @param id_only return the flickr id code? if false returns the static url
 #' @param ... additional arguments to flickr.upload (public, description, tags)
-#' @return the url, if uploaded.  otherwise, just the name of the file. 
-#'  Optionally will return just the flickr id if id_only is TRUE
+#' @return the url, if uploaded. 
 #' @details you'll need to define your secure details in options. 
 #' Obtain an api_key and secret key for your account by registering
 #' with the flickr API. Then use Rflickr to establish an authentication token
@@ -27,16 +25,18 @@ wordpress.url = function(x) {
 #' @import Rflickr
 #' @seealso flickr.upload 
 #' @export
-flickr.url = function(x, id_only = FALSE, ...){
+flickr.url = function(file){
   require(Rflickr)
   auth=getOption("flickr_tok") 
   api_key=getOption("flickr_api_key") 
   secret=getOption("flickr_secret")
-  id <- flickr.upload(secret=secret, auth_token=auth,
-                      api_key=api_key, image=file, ...)
+  id <- do.call(flickr.upload, 
+    c(secret = secret, auth_token = auth, api_key = api_key,
+      image = file, as.list(getOption("flickrOptions"))))
   sizes_url <- flickr.photos.getSizes(secret=secret, auth_token=auth,
                                       api_key=api_key, photo_id=id)
-  orig_size_url <- sizes_url[[5]][[4]]
+  n <- length(sizes_url) # get original size
+  orig_size_url <- sizes_url[[n-1]][[4]]
   orig_size_url
 }
 
@@ -49,13 +49,13 @@ flickr.url = function(x, id_only = FALSE, ...){
 #' @export
 render_wordpress <- function(upload=TRUE, image_service = c("wordpress", "imgur", "flickr")){
   render_gfm() 
-  options(width=30)
+  options(width=50)
   opts_knit$set(upload = upload)
-  output = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
-  warning = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
-  message = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
+  output = function(x, options) paste("[code lang='r']\n", x, "[/code]\n", sep = "")
+  warning = function(x, options) paste("[code lang='r']\n", x, "[/code]\n", sep = "")
+  message = function(x, options) paste("[code lang='r']\n", x, "[/code]\n", sep = "")
   inline = function(x, options) paste("<pre>", x, "</pre>", sep = "")
-  error = function(x, options) paste("[code]\n", x, "[/code]\n", sep = "")
+  error = function(x, options) paste("[code lang='r']\n", x, "[/code]\n", sep = "")
   source = function(x, options) paste("[code lang='r']\n", x, "[/code]\n", sep = "")
 
   image_service <- match.arg(image_service)
@@ -86,4 +86,19 @@ post_wordpress <- function(file, title = format(Sys.time(), "%A"), publish = FAL
   newPost(list(description = text, title = title), publish = publish)
 }
 
+
+
+#' Print a table in github-flavored markdown
+#' @param x an R table object
+#' @param ... aditional arguments to ascii
+#' @return prints a gfm marked up table (nice ascii readable format)
+#' @export
+gfm_table <- function(x, ...) {
+ # from ramnathv, https://gist.github.com/2050761
+ require(ascii)
+ y <- capture.output(print(ascii(x, ...), type = "org"))
+        # substitute + with | for table markup
+        y <- gsub("[+]", "|", y)
+        return(writeLines(y))
+}
 
