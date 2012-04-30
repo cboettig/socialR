@@ -8,7 +8,7 @@ Maintainer: Carl Boettiger <cboettig@gmail.com>
 Description: Enable error reporting and results in R through social networking
     services.  Uses primarily external calls at the moment.
 Depends:
-    R(>= 2.6.1)
+    R(>= 2.10.1)
 SystemRequirements: flickr_upload, git, hpc-autotweets
 License: GPL (>= 2)
 Collate:
