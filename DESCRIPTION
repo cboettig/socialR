@@ -20,3 +20,4 @@ Collate:
     'twitter.R'
     'urls.R'
     'depricated_knit.R'
+    'notebook.R'

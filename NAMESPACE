@@ -1,5 +1,6 @@
 export(flickr.url)
 export(gfm_table)
+export(notebook.url)
 export(post_wordpress)
 export(render_wordpress)
 export(wordpress.url)
