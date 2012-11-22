@@ -1,1 +1,6 @@
-An R package to enable code to post it's own status updates through social networks in R through github, flickr.  
+### Depricated
+
+This package is now depricated.  R can natively support interactions with
+twitter, flickr, wordpress, and many other APIs through native packages.
+For instance, see the [twitteR](http://cran.at.r-project.org/web/packages/twitteR/), 
+[Rflickr, Rdropbox, RMendeley and RWordpress](https://github.com/duncantl) packages.  

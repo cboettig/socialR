@@ -1,0 +1,32 @@
+#!/usr/bin/Rscript
+
+require(methods)
+require(utils)
+require(socialR)
+
+fmt = commandArgs(TRUE)
+
+# Modify a knitted document to post images to flickr and use flickr urls
+
+
+# Read in the file given at the command line
+a <- readLines(fmt)
+
+# Identify those lines with png images -- assumes they are in figures/
+lines <- grep("figures/.*\\.png", a)
+
+# Extract the local path for those image files
+images <- gsub(".*(figures/.*\\.png).*", "\\1", a[lines])
+
+# upload those images to flickr, recording the urls
+urls <- sapply(images, socialR::flickr.url)
+
+# replace the path name with the url
+outlines <- sapply(1:length(urls), function(i)
+ gsub("(^.*)(figures/.*\\.png)(.*$)", paste("\\1", urls[[i]], "\\3", sep=""), a[lines[i]]))
+
+# print output file
+a[lines] <- outlines
+
+
+writeLines(a, fmt)
