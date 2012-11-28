@@ -2,6 +2,7 @@
 #' @param file path to the file
 #' @return url to the file
 #' @details use with opts_knit$set(upload.fun = socialR::flickr.url)
+#' @import RCurl
 #' @export
 #'
 notebook.url <- function(file, cp=TRUE, sync=TRUE){
@@ -16,7 +17,7 @@ notebook.url <- function(file, cp=TRUE, sync=TRUE){
 
   url_out <- paste("http://carlboettiger.info/assets/figures/", fig.name, sep="")
   if(sync){
-    if(is.character(getURL("www.google.com"))){
+    if(is.character(RCurl::getURL("www.google.com"))){
       system("rsync -avz ~/Documents/labnotebook/assets/figures/ carlboettiger.info:~/carlboettiger.info/assets/figures/")
     out <- url_out 
     } else
