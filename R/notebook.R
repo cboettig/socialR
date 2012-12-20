@@ -8,7 +8,7 @@
 notebook.url <- function(file, cp=TRUE, sync=TRUE){
   sha <- gsub("^commit ", "", system("git log -n 1", intern=TRUE)[1])
   short_sha <- gsub("(^.{10}).*", "\\1", sha)
-  date <- format(Sys.time(), "%Y-%m-%d")
+  date <- format(Sys.time(), "%Y-%m-%d-%H-%M-%S")
   filename <- gsub("figure/(.*\\.png)", "\\1", file)
   fig.name <- paste(date, "-", short_sha, "-", filename, sep="")
   path <- paste("~/Documents/labnotebook/assets/figures/", fig.name, sep="")
