@@ -11,7 +11,7 @@ notebook.url <- function(file, cp=TRUE, sync=TRUE){
   date <- format(Sys.time(), "%Y-%m-%d-%H-%M-%S")
   filename <- gsub("figure/(.*\\.png)", "\\1", file)
   fig.name <- paste(date, "-", short_sha, "-", filename, sep="")
-  path <- paste("~/Documents/labnotebook/assets/figures/", fig.name, sep="")
+  path <- paste("/home/cboettig/Documents/labnotebook/assets/figures/", fig.name, sep="")
   if(cp)
     system(paste("cp", file, path, sep=" "))
 
@@ -23,7 +23,7 @@ notebook.url <- function(file, cp=TRUE, sync=TRUE){
     } else
       warning("no network connection found")
   } else
-    out <- path
+    out <- paste("file://", path, sep="")
   out
 }
 

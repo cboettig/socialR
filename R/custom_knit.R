@@ -27,11 +27,19 @@ wordpress.url = function(file) {
 #' @export
 flickr.url = function(file){
   require(Rflickr)
-  auth=getOption("flickr_tok") 
-  api_key=getOption("flickr_api_key") 
-  secret=getOption("flickr_secret")
+  if(is.null(getOption("flickr_title"))) 
+    img_title = file 
+  else 
+    img_title = getOption("flickr_title")  
+  sha     = gsub("^commit ", "", system("git log -n 1", intern=TRUE)[1])
+  auth    = getOption("flickr_tok") 
+  api_key = getOption("flickr_api_key") 
+  secret  = getOption("flickr_secret")
   id <- do.call(flickr.upload, 
     c(secret = secret, auth_token = auth, api_key = api_key,
+      title = img_title, 
+      description =  paste(getOption("flickr_description"), sha),
+      tags = getOption("flickr_tags"),
       image = file, as.list(getOption("flickrOptions"))))
   sizes_url <- flickr.photos.getSizes(secret=secret, auth_token=auth,
                                       api_key=api_key, photo_id=id)
