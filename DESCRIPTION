@@ -12,7 +12,7 @@ Depends:
 Imports:
     RCurl
 SystemRequirements: flickr_upload, git, hpc-autotweets
-License: GPL (>= 2)
+License: CC0
 Collate:
     'custom_knit.R'
     'flickr.R'
